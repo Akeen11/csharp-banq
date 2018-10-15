@@ -78,14 +78,15 @@ namespace banq
                     public string BankName { get; set; }
                 }
             */
-            List<ReportItem> millionaireReport = (from customer in customers
+            IEnumerable<ReportItem> millionaireReport = from customer in customers
                 join bank in banks on customer.Bank equals bank.Symbol into bankReport
                 from bank in bankReport
+                orderby customer.Name.Split()[1]
                 select new ReportItem
                 {
                     CustomerName = customer.Name,
                     BankName = bank.Name
-                }).ToList();
+                };
 
             foreach (var report in millionaireReport)
             {
